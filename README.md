@@ -1,6 +1,5 @@
 # Cypress Image Snapshot
 
-
 Cypress Image Snapshot binds [jest-image-snapshot](https://github.com/americanexpress/jest-image-snapshot)'s image diffing logic to [Cypress.io](https://cypress.io) commands. **The goal is to catch visual regressions during integration tests.**
 
 [![Discord](https://img.shields.io/discord/769256827007139912?label=%F0%9F%92%AC%20%20join%20us%20on%20discord&style=plastic)](https://discord.com/invite/RevdZTYMzr)
@@ -33,19 +32,24 @@ When using `cypress run` and `--reporter cypress-image-snapshot/reporter`, diffs
 Install from npm
 
 ```bash
-npm install --save-dev cypress-image-snapshot
+npm install --save-dev @simonsmith/cypress-image-snapshot
 ```
 
-then add the following in your project's `<rootDir>/cypress/plugins/index.js`:
+Then add the following in your project's `cypress.config.js`:
 
 ```js
+const { defineConfig } = require('cypress');
 const {
   addMatchImageSnapshotPlugin,
 } = require('cypress-image-snapshot/plugin');
 
-module.exports = (on, config) => {
-  addMatchImageSnapshotPlugin(on, config);
-};
+module.exports = defineConfig({
+  e2e: {
+    setupNodeEvents(on, config) {
+      addMatchImageSnapshotPlugin(on, config);
+    },
+  },
+});
 ```
 
 and in `<rootDir>/cypress/support/commands.js` add:
